@@ -13,4 +13,6 @@
         <attr name="pstsShouldExpand" format="boolean" />
         <attr name="pstsTextAllCaps" format="boolean" />
     </declare-styleable>
+    <item name="iv_tab_icon" type="id"/>
+    <item name="tv_tab_name" type="id"/>
 </resources>

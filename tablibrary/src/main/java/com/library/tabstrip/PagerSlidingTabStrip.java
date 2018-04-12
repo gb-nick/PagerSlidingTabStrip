@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Parcel;
@@ -14,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -24,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import java.util.Locale;
 
 public class PagerSlidingTabStrip extends HorizontalScrollView {
@@ -40,6 +43,11 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int normalIconRes[];//存储所有指示器未选择的图标
     private int lightIconRes[];//存储所有指示器已选择的图标
     private int selectedTabTextColor;//表示已选择的文本字体颜色
+    private int iconAndText;//布局展示 1 icon+text,2 icon,3 text
+    public static final int TABICONTEXT = 1;
+    public static final int TABICON = 2;
+    public static final int TABTEXT = 3;
+
     // @formatter:off
     private static final int[] ATTRS = new int[]{
             android.R.attr.textSize,
@@ -77,7 +85,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int indicatorHeight = 8;
     private int underlineHeight = 2;
     private int dividerPadding = 12;
-    private int tabPadding = 24;
+    private int tabPadding = 20;
     private int dividerWidth = 1;
 
     private int tabTextSize = 12;
@@ -293,17 +301,45 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                 if (i == selectedPosition) {
                     tab.setTextColor(selectedTabTextColor);
                 }
+            } else if(v instanceof ImageButton){
+                ImageButton imageButton = (ImageButton) v;
+                if (i == selectedPosition) {
+                    imageButton.setImageResource(this.lightIconRes[i]);
+                } else {
+                    imageButton.setImageResource(this.normalIconRes[i]);
+                }
             } else if (v instanceof ViewGroup) {
                 //适配器中getTabView回调方法中加载的布局控件
-                ImageView tabIcon = (ImageView) v.findViewById(R.id.iv_tab_icon);
-                TextView tabTxt = (TextView) v.findViewById(R.id.tv_tab_name);
-                tabTxt.setText(tabTexts[i]);
+                ImageView tabIcon = null;
+                TextView tabTxt = null;
+                if (iconAndText == 1) {
+                    tabIcon = (ImageView) v.findViewById(R.id.iv_tab_icon);
+                    tabTxt = (TextView) v.findViewById(R.id.tv_tab_name);
+                    tabTxt.setText(tabTexts[i]);
+                } else if (iconAndText == 2) {
+                    tabIcon = (ImageView) v.findViewById(R.id.iv_tab_icon);
+                } else if (iconAndText == 3) {
+                    tabTxt = (TextView) v.findViewById(R.id.tv_tab_name);
+                    tabTxt.setText(tabTexts[i]);
+                }
                 if (i == selectedPosition) {
-                    tabIcon.setImageResource(this.lightIconRes[i]);
-                    tabTxt.setTextColor(selectedTabTextColor);
+                    if (iconAndText == 1) {
+                        tabIcon.setImageResource(this.lightIconRes[i]);
+                        tabTxt.setTextColor(selectedTabTextColor);
+                    } else if (iconAndText == 2) {
+                        tabIcon.setImageResource(this.lightIconRes[i]);
+                    } else if (iconAndText == 3) {
+                        tabTxt.setTextColor(selectedTabTextColor);
+                    }
                 } else {
-                    tabTxt.setTextColor(tabTextColor);
-                    tabIcon.setImageResource(this.normalIconRes[i]);
+                    if (iconAndText == 1) {
+                        tabTxt.setTextColor(tabTextColor);
+                        tabIcon.setImageResource(this.normalIconRes[i]);
+                    } else if (iconAndText == 2) {
+                        tabIcon.setImageResource(this.normalIconRes[i]);
+                    } else if (iconAndText == 3) {
+                        tabTxt.setTextColor(tabTextColor);
+                    }
                 }
             }
         }
@@ -345,6 +381,20 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
         // default: line below current tab
         View currentTab = tabsContainer.getChildAt(currentPosition);
+
+        View curTab = null;
+        if (iconAndText == 0) {
+            if (currentTab instanceof TextView) {
+                curTab = (TextView) currentTab;
+            } else if (currentTab instanceof ImageButton) {
+                curTab = (ImageButton) currentTab;
+            }
+        } else if (iconAndText == 1 || iconAndText == 3) {
+            curTab = currentTab.findViewById(R.id.tv_tab_name);
+        } else if (iconAndText == 2) {
+            curTab = currentTab.findViewById(R.id.iv_tab_icon);
+        }
+
         float lineLeft = currentTab.getLeft();
         float lineRight = currentTab.getRight();
 
@@ -352,15 +402,44 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         if (currentPositionOffset > 0f && currentPosition < tabCount - 1) {
 
             View nextTab = tabsContainer.getChildAt(currentPosition + 1);
+
             final float nextTabLeft = nextTab.getLeft();
             final float nextTabRight = nextTab.getRight();
 
             lineLeft = (currentPositionOffset * nextTabLeft + (1f - currentPositionOffset) * lineLeft);
             lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
         }
+
+        float width = 0;
+        if (iconAndText == 0) {
+            if (curTab instanceof TextView) {
+                TextView tab = (TextView) curTab;
+                width = tab.getPaint().measureText(tab.getText().toString() + "");
+            } else if (curTab instanceof ImageButton) {
+                ImageButton tab = (ImageButton) curTab;
+                int w = View.MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+                int h = View.MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+                tab.measure(w, h);
+                width = tab.getMeasuredWidth() - tabPadding * 2;
+            }
+        } else {
+            if (curTab instanceof TextView) {
+                TextView tab = (TextView) currentTab.findViewById(R.id.tv_tab_name);
+                width = tab.getPaint().measureText(tab.getText().toString() + "");
+            }
+            if (curTab instanceof ImageView) {
+                ImageView tab = (ImageView) currentTab.findViewById(R.id.iv_tab_icon);
+                int w = View.MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+                int h = View.MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+                tab.measure(w, h);
+                width = tab.getMeasuredWidth();
+            }
+        }
+
+//        Log.e("....>",""+width);
         // 设置底部横线与文字宽度一致
         if (indicatorinFollower) {
-            canvas.drawRect(lineLeft + tabPadding, height - indicatorHeight, lineRight - tabPadding, height, rectPaint);
+            canvas.drawRect(lineLeft + (lineRight - lineLeft - width) / 2, height - indicatorHeight, lineLeft + width + (lineRight - lineLeft - width) / 2, height, rectPaint);
         } else {
             //默认设置，底部横线填满宽度
             canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
@@ -419,6 +498,14 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     }
 
+    /**
+     * stateVaule:0 icon+text,1 icon,2 text
+     */
+    public void setIconAndText(int stateVaule) {
+        this.iconAndText = stateVaule;
+        updateTabStyles();
+    }
+
     public void setNormalIconRes(int[] nIcon) {
         this.normalIconRes = nIcon;
         updateTabStyles();
@@ -462,6 +549,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         this.indicatorinFollower = indicatorinFollower;
         invalidate();
     }
+
 
     public int getIndicatorHeight() {
         return indicatorHeight;
