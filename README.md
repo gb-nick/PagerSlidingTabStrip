@@ -1,4 +1,4 @@
-# Android PagerSlidingTabStrip 自定义导航标题
+# Android PagerSlidingTabStrip 自定义导航栏
 
 **PagerSlidingTabStrip** 是Android 平台的开源项目，导航控件。完美兼容 Android 自带库和兼容库的ViewPager组件，和ViewPager配合的页面指示器。
 
