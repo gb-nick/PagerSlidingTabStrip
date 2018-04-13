@@ -44,6 +44,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int lightIconRes[];//存储所有指示器已选择的图标
     private int selectedTabTextColor;//表示已选择的文本字体颜色
     private int iconAndText;//布局展示 1 icon+text,2 icon,3 text
+    public static final int TABEMPTY = 0;
     public static final int TABICONTEXT = 1;
     public static final int TABICON = 2;
     public static final int TABTEXT = 3;
@@ -312,32 +313,32 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                 //适配器中getTabView回调方法中加载的布局控件
                 ImageView tabIcon = null;
                 TextView tabTxt = null;
-                if (iconAndText == 1) {
+                if (iconAndText == TABICONTEXT) {
                     tabIcon = (ImageView) v.findViewById(R.id.iv_tab_icon);
                     tabTxt = (TextView) v.findViewById(R.id.tv_tab_name);
                     tabTxt.setText(tabTexts[i]);
-                } else if (iconAndText == 2) {
+                } else if (iconAndText == TABICON) {
                     tabIcon = (ImageView) v.findViewById(R.id.iv_tab_icon);
-                } else if (iconAndText == 3) {
+                } else if (iconAndText == TABTEXT) {
                     tabTxt = (TextView) v.findViewById(R.id.tv_tab_name);
                     tabTxt.setText(tabTexts[i]);
                 }
                 if (i == selectedPosition) {
-                    if (iconAndText == 1) {
+                    if (iconAndText == TABICONTEXT) {
                         tabIcon.setImageResource(this.lightIconRes[i]);
                         tabTxt.setTextColor(selectedTabTextColor);
-                    } else if (iconAndText == 2) {
+                    } else if (iconAndText == TABICON) {
                         tabIcon.setImageResource(this.lightIconRes[i]);
-                    } else if (iconAndText == 3) {
+                    } else if (iconAndText == TABTEXT) {
                         tabTxt.setTextColor(selectedTabTextColor);
                     }
                 } else {
-                    if (iconAndText == 1) {
+                    if (iconAndText == TABICONTEXT) {
                         tabTxt.setTextColor(tabTextColor);
                         tabIcon.setImageResource(this.normalIconRes[i]);
-                    } else if (iconAndText == 2) {
+                    } else if (iconAndText == TABICON) {
                         tabIcon.setImageResource(this.normalIconRes[i]);
-                    } else if (iconAndText == 3) {
+                    } else if (iconAndText == TABTEXT) {
                         tabTxt.setTextColor(tabTextColor);
                     }
                 }
@@ -383,15 +384,15 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         View currentTab = tabsContainer.getChildAt(currentPosition);
 
         View curTab = null;
-        if (iconAndText == 0) {
+        if (iconAndText == TABEMPTY) {
             if (currentTab instanceof TextView) {
                 curTab = (TextView) currentTab;
             } else if (currentTab instanceof ImageButton) {
                 curTab = (ImageButton) currentTab;
             }
-        } else if (iconAndText == 1 || iconAndText == 3) {
+        } else if (iconAndText == TABICONTEXT || iconAndText == TABTEXT) {
             curTab = currentTab.findViewById(R.id.tv_tab_name);
-        } else if (iconAndText == 2) {
+        } else if (iconAndText == TABICON) {
             curTab = currentTab.findViewById(R.id.iv_tab_icon);
         }
 
@@ -411,7 +412,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         }
 
         float width = 0;
-        if (iconAndText == 0) {
+        if (iconAndText == TABEMPTY) {
             if (curTab instanceof TextView) {
                 TextView tab = (TextView) curTab;
                 width = tab.getPaint().measureText(tab.getText().toString() + "");

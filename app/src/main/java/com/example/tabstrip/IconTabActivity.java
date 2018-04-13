@@ -66,8 +66,7 @@ public class IconTabActivity extends AppCompatActivity {
 //        tabs.setUnderlineHeight(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, dm));
         //设置Tab底部分割线的颜色
         tabs.setUnderlineColor(Color.TRANSPARENT);
-        // 设置点击某个Tab时的背景色,设置为0时取消背景色tabs.setTabBackground(0);
-//        tabs.setTabBackground(R.drawable.bg_tab);
+        // 设置点击某个Tab时的背景色,设置为0时取消背景色
         tabs.setTabBackground(0);
         //设置未选择的图标
         tabs.setNormalIconRes(icon0);
@@ -75,12 +74,12 @@ public class IconTabActivity extends AppCompatActivity {
         tabs.setLightIconRes(icon1);
         // 设置Tab是自动填充满屏幕的
         tabs.setShouldExpand(true);
-        // 设置选中的Tab文字的颜色
-        tabs.setSelectedTextColor(Color.GREEN);
-        tabs.setViewPager(viewPager);//与ViewPager关联，这样指示器就可以和ViewPager联动
-        tabs.setDividerColor(Color.TRANSPARENT);//去除tab间的分割线
+        //tab间的分割线
+        tabs.setDividerColor(Color.GRAY);
         //底部横线与字体宽度一致
         tabs.setIndicatorinFollower(true);
+        //与ViewPager关联，这样指示器就可以和ViewPager联动
+        tabs.setViewPager(viewPager);
     }
 
     class MyPageAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider{

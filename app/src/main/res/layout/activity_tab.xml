@@ -9,12 +9,14 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/tabs"/>
     <com.library.tabstrip.PagerSlidingTabStrip
+        xmlns:psts="http://schemas.android.com/apk/res-auto"
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:layout_alignParentBottom="true"
-        android:background="#ffffff" />
+        android:background="#ffffff"
+        psts:pstsShouldExpand="true"/>
 
 </RelativeLayout>

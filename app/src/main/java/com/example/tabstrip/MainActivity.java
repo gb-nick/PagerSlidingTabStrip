@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button button, button2, button3;
 
     @Override
