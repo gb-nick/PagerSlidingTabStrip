@@ -33,13 +33,13 @@
 项目app下**build.gradle**文件中
 ```
 dependencies {
-	compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+	compile 'com.github.gb-nick:PagerSlidingTabStrip:v1.0.5'
 }
 ```
 
 2）layout里加入PagerSlidingTabStrip控件
 ```
-<com.astuetz.PagerSlidingTabStrip
+<com.library.tabstrip.PagerSlidingTabStrip
     android:id="@+id/tabs"
     android:layout_width="match_parent"
     android:layout_height="40dp" />
@@ -642,7 +642,7 @@ protected void onDraw(Canvas canvas) {
 #### 4. 注意事项
 1）如果在XML中使用PagerSlidingTabStrip属性，记得添加`xmlns:psts="http://schemas.android.com/apk/res-auto"`
 ```
-<com.astuetz.PagerSlidingTabStrip
+<com.library.tabstrip.PagerSlidingTabStrip
 	xmlns:psts="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tabs"
     android:layout_width="match_parent"
