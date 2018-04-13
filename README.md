@@ -6,29 +6,29 @@
 
 ***
 
-##### 1. 属性介绍
+#### 1. 属性介绍
 1）基本属性（XML）
-* **pstsIndicatorColor：**滑动条的颜色
-* **pstsIndicatorHeight：**滑动条的高度
-* **pstsUnderlineColor：**滑动条所在的那个全宽线的颜色
-* **pstsUnderlineHeight：**滑动条所在的那个全宽线的高度
-* **pstsDividerColor：**每个标签的分割线的颜色
-* **pstsDividerPadding：**分割线底部和顶部的填充宽度
-* **pstsTabPaddingLeftRight：**每个标签左右填充宽度
-* **pstsScrollOffset：**滑动偏移量
-* **pstsTabBackground：**每个标签背景
-* **pstsShouldExpand：**若为true，每个标签均匀平分整个屏幕，默认是false
-* **pstsTextAllCaps：**若为true，所有标签都是大写字母，默认为true
+* **pstsIndicatorColor** 滑动条的颜色
+* **pstsIndicatorHeight** 滑动条的高度
+* **pstsUnderlineColor** 滑动条所在的那个全宽线的颜色
+* **pstsUnderlineHeight** 滑动条所在的那个全宽线的高度
+* **pstsDividerColor** 每个标签的分割线的颜色
+* **pstsDividerPadding** 分割线底部和顶部的填充宽度
+* **pstsTabPaddingLeftRight** 每个标签左右填充宽度
+* **pstsScrollOffset** 滑动偏移量
+* **pstsTabBackground** 每个标签背景
+* **pstsShouldExpand** 若为true，每个标签均匀平分整个屏幕，默认是false
+* **pstsTextAllCaps** 若为true，所有标签都是大写字母，默认为true
 
 2）扩展属性（Java）
-* **setIconAndText：**设置布局样式，图文展示（**TABICONTEXT：**图标加文本；**TABICON：**图标；**TABTEXT：**文本）
-* **setNormalIconRes：**设置未选择的图标
-* **setLightIconRes：**设置已选择的图标
-* **setTabTexts：**设置文本
-* **setSelectedTextColor：**设置选中的Tab文字的颜色
-* **setIndicatorinFollower：**设置底部横线与字体宽度一致，默认是false
+* **setIconAndText** 设置布局样式，图文展示（**TABICONTEXT** 图标加文本；**TABICON** 图标；**TABTEXT** 文本）
+* **setNormalIconRes** 设置未选择的图标
+* **setLightIconRes** 设置已选择的图标
+* **setTabTexts** 设置文本
+* **setSelectedTextColor** 设置选中的Tab文字的颜色
+* **setIndicatorinFollower** 设置底部横线与字体宽度一致，默认是false
 
-##### 2. 用法介绍
+#### 2. 用法介绍
 1）添加库依赖
 项目app下**build.gradle**文件中
 ```
@@ -65,7 +65,7 @@ tabs.setViewPager(pager);
 
 ![文本导航图](https://upload-images.jianshu.io/upload_images/4625401-830c427f6bb342b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-控件初始化：
+控件初始化
 ```
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +97,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	tabs.setViewPager(viewPager);
 }
 ```
-文本适配器：
+文本适配器
 ```
 class TextAdapter extends FragmentPagerAdapter {
 	String[] titles;
@@ -130,7 +130,7 @@ class TextAdapter extends FragmentPagerAdapter {
 
 ![图标导航图](https://upload-images.jianshu.io/upload_images/4625401-d8ee334b02a4fbc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-控件初始化：
+控件初始化
 ```
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +164,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	tabs.setViewPager(viewPager);
 }
 ```
-图标适配器：
+图标适配器
 ```
 class IconAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 	int[] icons;
@@ -196,7 +196,7 @@ class IconAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.I
 
 ![图文导航图](https://upload-images.jianshu.io/upload_images/4625401-94067d2a01551052.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-控件初始化：
+控件初始化
 ```
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -206,7 +206,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	ViewPager pager = (ViewPager) findViewById(R.id.pager);
 	pager.setAdapter(new IconTextAdapter(getSupportFragmentManager(), list));
 
-    //!!!设置布局样式（必须要设置，TABICONTEXT：图标加文本；TABICON：图标；TABTEXT：文本）!!!
+    //!!!设置布局样式（必须要设置，TABICONTEXT图标加文本；TABICON图标；TABTEXT文本）!!!
     tabs.setIconAndText(PagerSlidingTabStrip.TABICONTEXT);
 
 	// 设置Tab底部选中的指示器 Indicator的颜色
@@ -237,7 +237,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	tabs.setViewPager(viewPager);
 }
 ```
-图文适配器：
+图文适配器
 ```
 class IconTextAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.ViewTabProvider {
 	List<Fragment> lists = new ArrayList<>();
@@ -266,7 +266,7 @@ class IconTextAdapter extends FragmentPagerAdapter implements PagerSlidingTabStr
 
 }
 ```
-自定义布局：
+自定义布局
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -293,9 +293,9 @@ class IconTextAdapter extends FragmentPagerAdapter implements PagerSlidingTabStr
 
 </LinearLayout>
 ```
-注意：ImageView 和 TextView 控件ID必须为：`@id/iv_tab_icon`和`@id/tv_tab_name`
+注意ImageView 和 TextView 控件ID必须为`@id/iv_tab_icon`和`@id/tv_tab_name`
 
-##### 3. 源码分析
+#### 3. 源码分析
 * **IconTabProvider**
 接口`IconTabProvider`，在ViewPager对应的Adapter实现该方法`getPageIconResId(int position)`并返回每个ViewPager对应的图标，即可实现图标指示器。
 ```
@@ -433,7 +433,7 @@ private void scrollToChild(int position, int offset) {
 }
 ```
 * **addTextTab，addIconTab，addViewTab，addTab**
-*addTextTab：*创建Tab文本；*addIconTab：*创建Tab图标；*addViewTab：*创建Tab自定义视图；*addTab：*设置视图属性
+*addTextTab*创建Tab文本；*addIconTab*创建Tab图标；*addViewTab*创建Tab自定义视图；*addTab*设置视图属性
 ```
 private void addTextTab(final int position, String title) {
 	TextView tab = new TextView(getContext());
@@ -639,8 +639,8 @@ protected void onDraw(Canvas canvas) {
 
 }
 ```
-##### 4. 注意事项
-1）如果在XML中使用PagerSlidingTabStrip属性，记得添加：`xmlns:psts="http://schemas.android.com/apk/res-auto"`
+#### 4. 注意事项
+1）如果在XML中使用PagerSlidingTabStrip属性，记得添加`xmlns:psts="http://schemas.android.com/apk/res-auto"`
 ```
 <com.astuetz.PagerSlidingTabStrip
 	xmlns:psts="http://schemas.android.com/apk/res-auto"
@@ -650,13 +650,13 @@ protected void onDraw(Canvas canvas) {
 	psts:pstsShouldExpand="true"/>
 ```
 2）使用自定义视图，必须要设置视图类型`setIconAndText(int int stateVaule)`
-TABICONTEXT：图标加文本；TABICON：图标；TABTEXT：文本
+TABICONTEXT图标加文本；TABICON图标；TABTEXT文本
 
-3）使用自定义视图，自定义布局图标控件（ImageView）ID必须为：` android:id="@id/iv_tab_icon"`，文本控件（TextView）ID必须为：` android:id="@id/tv_tab_name"`；
+3）使用自定义视图，自定义布局图标控件（ImageView）ID必须为` android:id="@id/iv_tab_icon"`，文本控件（TextView）ID必须为` android:id="@id/tv_tab_name"`；
 两个控件ID已封装，在PagerSlidingTabStrip类中使用，如果使用其他ID会找不到资源报错。
 
 ***
 
-##### 简书地址
+#### 简书地址
 https://www.jianshu.com/u/92c4b917f8f3
 
