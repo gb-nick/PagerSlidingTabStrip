@@ -439,7 +439,7 @@ private void scrollToChild(int position, int offset) {
 ```
 * **addTextTab，addIconTab，addViewTab，addTab**
 
-*addTextTab*创建Tab文本；*addIconTab*创建Tab图标；*addViewTab*创建Tab自定义视图；*addTab*设置视图属性
+*addTextTab* 创建Tab文本；*addIconTab* 创建Tab图标；*addViewTab* 创建Tab自定义视图；*addTab* 设置视图属性
 ```
 private void addTextTab(final int position, String title) {
 	TextView tab = new TextView(getContext());
