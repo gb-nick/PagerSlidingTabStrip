@@ -297,6 +297,7 @@ class IconTextAdapter extends FragmentPagerAdapter implements PagerSlidingTabStr
 
 #### 3. 源码分析
 * **IconTabProvider**
+
 接口`IconTabProvider`，在ViewPager对应的Adapter实现该方法`getPageIconResId(int position)`并返回每个ViewPager对应的图标，即可实现图标指示器。
 ```
 public interface IconTabProvider {
@@ -305,6 +306,7 @@ public interface IconTabProvider {
 ```
 
 * **ViewTabProvider**
+
 接口`ViewTabProvider`，在ViewPager对应的Adapter实现该方法` public View getTabView(int position)`并返回每个ViewPager对应的视图，即可实现自定义视图指示器。
 ```
 public interface ViewTabProvider {
@@ -313,6 +315,7 @@ public interface ViewTabProvider {
 ```
 
 * **setViewPager， setOnPageChangeListener**
+
 一个用来与ViewPager联动，一个用来处理自定义的OnPagerListener逻辑
 ```
 public void setViewPager(ViewPager pager) {
@@ -379,6 +382,7 @@ private class PageListener implements OnPageChangeListener {
 ```
 
 * **notifyDataSetChanged**
+
 自定义方法notifyDataSetChanged，用来先移除现有的childView，再遍历addView，设置更新每个Tab的属性
 ```
 public void notifyDataSetChanged() {
@@ -416,6 +420,7 @@ public void notifyDataSetChanged() {
 ```
 
 * **scrollToChild**
+
 滑动指定子视图
 ```
 private void scrollToChild(int position, int offset) {
@@ -480,6 +485,7 @@ private void addTab(final int position, View tab) {
 ```
 
 * **updateTabStyles**
+
 设置更新每个Tab的属性
 ```
 private void updateTabStyles() {
@@ -550,6 +556,7 @@ private void updateTabStyles() {
 }
 ```
 * **onDraw**
+
 对滑动indicator、底部分割线和tab之间的分割线进行绘制，实现了View的滑动。
 ```
 @Override
